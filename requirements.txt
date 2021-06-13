@@ -1,0 +1,5 @@
+fastapi
+mkl
+mkl-service
+faiss-cpu -c pytorch
+
