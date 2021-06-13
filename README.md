@@ -1,0 +1,1 @@
+# fastapi_faiss_service
