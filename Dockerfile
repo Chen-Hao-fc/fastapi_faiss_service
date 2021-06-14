@@ -10,4 +10,4 @@ RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /ietc/lcoaltime
 RUN echo 'Asia/Shanghai' >/etc/timezone
 ENV PORT 5000
 WORKDIR /workspace
-CMD uvicorn service:app --host 0.0.0.0. --port 5000 --reload
+CMD uvicorn service:app --host 0.0.0.0 --port 5000 --reload
