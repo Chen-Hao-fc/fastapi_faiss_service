@@ -47,11 +47,11 @@ class BuildIndex(object):
             for label, feature in features.items():
                 writer.write(label + '\t' + ','.join([str(v) for v in feature.vector] + '\n'))
 
-    def __dump_features(self, features:Dict[str, Feature]):
+    def _dump_features(self, features:Dict[str, Feature]):
         with open(FEATURES_PATH, 'wb') as writer:
             pickle.dump(features, writer)
 
-    def __build_index(self, vectors:List[List[float]]):
+    def _build_index(self, vectors:List[List[float]]):
         vectors = np.array(vectors, dtype=np.float32)
         dim = vectors.shape[-1]
 
@@ -64,8 +64,8 @@ class BuildIndex(object):
 
     def run(self):
         vectors, features = self.read_tsv()
-        self.__build_index(vectors)
-        self.__dump_features(features)
+        self._build_index(vectors)
+        self._dump_features(features)
 
     @classmethod
     def update(cls):
