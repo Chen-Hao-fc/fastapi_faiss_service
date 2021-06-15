@@ -6,6 +6,14 @@ conda install mkl
 conda install mkl-service
 conda install faiss-cpu -c pytorch
 ```
+## prepare
+- you need save your vector file in **/src/resources/init_vec.tsv** 
+- init_vec.tsv file format split by ' ' 
+```python
+content = line.strip().split(' ')
+label = content[0]
+vector = [float(v) for v in content[1:]]
+```
 
 ## Execute
 
@@ -24,7 +32,6 @@ docker run -it --rm -p 6006:5000 -d fastapi_faiss_service:latest
 
 ## Http Request
 ```http request
-http://localhost:6006/faiss?labels='开心'&k=5
-http://localhost:6006/index?labels='开心'&k=5
+http://localhost:6006/index/labels?k=5&labels=在,了
 ```
 
