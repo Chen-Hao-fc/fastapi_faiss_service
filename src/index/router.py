@@ -38,3 +38,4 @@ async def read_item(k:int, vectors:str):
     result = search.search_by_vectors(vectors, k)
 
     return jsonable_encoder(result)
+
