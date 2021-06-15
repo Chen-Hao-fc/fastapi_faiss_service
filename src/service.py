@@ -5,7 +5,7 @@
 # Description:  
 # --------------------------------------------
 from fastapi import FastAPI
-from .faiss.router import router
+from index.router import router
 from utils.logger import creat_logger
 
 logger = creat_logger('INFO')

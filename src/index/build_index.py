@@ -7,9 +7,11 @@
 import faiss
 import pickle
 import numpy as np
+from logging import getLogger
 from dataclasses import dataclass
 from typing import List, Dict, Tuple
 from .constant import INIT_VECTORS_PATH, INDEX_PATH, FEATURES_PATH
+logger = getLogger()
 
 @dataclass
 class Feature:
@@ -23,19 +25,16 @@ class BuildIndex(object):
         self.init_vectors_path = path
         self.run()
 
-    def read_tsv(self, vec_sep=',') -> Tuple[List[List[float]], Dict[str, Feature]]:
+    def read_tsv(self) -> Tuple[List[List[float]], Dict[str, Feature]]:
         vectors = []
         features = {}
         number = 0
         with open(self.init_vectors_path, 'r') as reader:
             line = reader.readline()
             while line:
-                content = line.strip().split('\t')
-                if len(content) != 2:
-                    line = reader.readline()
-                    continue
+                content = line.strip().split(' ')
                 label = content[0]
-                vector = [float(v) for v in content[1].strip().split(vec_sep)]
+                vector = [float(v) for v in content[1:]]
                 features[label] = Feature(label=label, id=number, vector=vector)
                 vectors.append(vector)
                 number += 1
@@ -55,7 +54,7 @@ class BuildIndex(object):
         vectors = np.array(vectors, dtype=np.float32)
         dim = vectors.shape[-1]
 
-        # index = faiss.index_factory(dim, "IVF4096,Flat")
+        # index = index.index_factory(dim, "IVF4096,Flat")
         # index.train(vectors)
         index = faiss.IndexFlatL2(dim)
         index.add(vectors)
@@ -64,8 +63,13 @@ class BuildIndex(object):
 
     def run(self):
         vectors, features = self.read_tsv()
+        logger.info(f'load init vectors file finished, number_features:{len(features)} vector_dimension:{len(vectors[0])}')
+
         self._build_index(vectors)
+        logger.info('build faiss index finished')
+
         self._dump_features(features)
+        logger.info('dump feature finished')
 
     @classmethod
     def update(cls):

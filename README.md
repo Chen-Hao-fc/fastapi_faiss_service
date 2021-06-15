@@ -12,7 +12,7 @@ conda install faiss-cpu -c pytorch
 ### bash
 
 ```bash
-cd fastapi_faiss_service
+cd fastapi_faiss_service/src
 uvicorn service:app --host 0.0.0.0 --port 5000 --reload
 ```
 
@@ -25,6 +25,6 @@ docker run -it --rm -p 6006:5000 -d fastapi_faiss_service:latest
 ## Http Request
 ```http request
 http://localhost:6006/faiss?labels='开心'&k=5
-http://localhost:6006/faiss?labels='开心'&k=5
+http://localhost:6006/index?labels='开心'&k=5
 ```
 

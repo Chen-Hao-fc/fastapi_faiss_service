@@ -41,10 +41,9 @@ class SearchIndex(object):
 
     def _search(self, ids:List[int], labels:List[str], vectors:List[float], k:int) -> List[Dict]:
         def pack_neighbor(id, score):
-            return {'id':id, 'label': self._id2label[id], 'score': score}
+            return {'id':int(id), 'label': str(self._id2label[id]), 'score': float(score)}
         def pack_result(id, label, vector, neighbors):
             return {'id':id, 'label': label, 'vector': vector.tolist(), 'neighbors': neighbors}
-
 
         results = []
         vectors = [np.array(vec, dtype=np.float32) for vec in vectors]
